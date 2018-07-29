@@ -146,6 +146,10 @@ module.exports = function (daemon, wrtc) {
         case 'datachannel':
           message.channel._pcId = this._id
           event.channel = new RTCDataChannel(message.channel)
+          event.channel.on('error', function(err) {
+              event.channel.close();
+              console.log(err);
+          });
           this._dataChannels.set(event.channel.id, event.channel)
           break
 
